@@ -15,7 +15,11 @@ class CreateTagsTable extends Migration
     {
         Schema::create('tags', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->timestamps();
+            $table->string('nome');
+            $table->unsignedBigInteger('anime_id');
+            $table->foreign('anime_id')->references('id')->on('animes');
+            $table->unsignedBigInteger('episodio_id');
+            $table->foreign('episodio_id')->references('id')->on('episodios');
         });
     }
 

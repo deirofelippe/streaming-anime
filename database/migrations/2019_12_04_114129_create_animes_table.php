@@ -15,7 +15,13 @@ class CreateAnimesTable extends Migration
     {
         Schema::create('animes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->timestamps();
+            $table->string('nome');
+            $table->string('descricao');
+            $table->date('ano_lancamento');
+            $table->integer('avaliacao');
+            $table->integer('num_avaliacoes');
+            $table->unsignedBigInteger('tag_id');
+            $table->foreign('tag_id')->references('id')->on('tags');
         });
     }
 

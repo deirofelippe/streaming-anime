@@ -15,7 +15,9 @@ class CreateTemporadasTable extends Migration
     {
         Schema::create('temporadas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->timestamps();
+            $table->string('temporada');
+            $table->unsignedBigInteger('anime_id');
+            $table->foreign('anime_id')->references('id')->on('animes');
         });
     }
 

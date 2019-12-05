@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class EmbedVideo extends Model
 {
     protected $fillable = [
-        'htmlEmbedVideo',
+        'html_embed_video',
         'nome',
         'resolucao',
-        'subDub'
+        'sub_dub'
     ];
 
     public function episodio(){

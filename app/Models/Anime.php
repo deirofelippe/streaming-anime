@@ -9,8 +9,9 @@ class Anime extends Model
     protected $fillable = [
         'nome',
         'descricao',
-        'anoLancamento',
-        'avaliacao'
+        'ano_lancamento',
+        'avaliacao',
+        'num_avaliacoes'
     ];
 
     public function temporadas(){

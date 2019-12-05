@@ -15,6 +15,16 @@ class CreateEpisodiosTable extends Migration
     {
         Schema::create('episodios', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('titulo');
+            $table->text('descricao');
+            $table->integer('numero_episodio');
+            $table->integer('views');
+            $table->integer('avaliacao');
+            $table->integer('num_avaliacoes');
+            $table->unsignedBigInteger('temporada_id');
+            $table->foreign('temporada_id')->references('id')->on('temporadas');
+            $table->unsignedBigInteger('tag_id');
+            $table->foreign('tag_id')->references('id')->on('tags');
             $table->timestamps();
         });
     }

@@ -9,10 +9,11 @@ class Episodio extends Model
     public $timestamps = true;
     protected $fillable = [
         'titulo',
-        'numeroEpisodio',
         'descricao',
+        'numero_episodio',
+        'views',
         'avaliacao',
-        'qtdViews'
+        'num_avaliacoes'
     ];
 
     public function temporada(){
