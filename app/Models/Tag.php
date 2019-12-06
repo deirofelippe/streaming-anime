@@ -11,10 +11,10 @@ class Tag extends Model
     ];
 
     public function episodios(){
-        return $this->belongsToMany('App\Models\Episodio');
+        return $this->belongsToMany('App\Models\Episodio', 'episodio_tag', 'tag_id', 'episodio_id');
     }
 
     public function animes(){
-        return $this->belongsToMany('App\Models\Anime');
+        return $this->belongsToMany('App\Models\Anime', 'anime_tag', 'tag_id', 'anime_id');
     }
 }

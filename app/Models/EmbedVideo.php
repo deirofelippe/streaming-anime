@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class EmbedVideo extends Model
 {
     protected $fillable = [
-        'html_embed_video',
+        'codigo_embed',
         'nome',
         'resolucao',
         'sub_dub'

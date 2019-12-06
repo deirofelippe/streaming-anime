@@ -19,6 +19,6 @@ class Anime extends Model
     }
 
     public function tags(){
-        return $this->belongsToMany('App\Models\Tag');
+        return $this->belongsToMany('App\Models\Tag', 'anime_tag', 'anime_id', 'tag_id');
     }
 }

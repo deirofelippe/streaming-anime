@@ -14,17 +14,19 @@ class CreateEpisodiosTable extends Migration
     public function up()
     {
         Schema::create('episodios', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            $table->charset = 'utf8';
+            $table->collation = 'utf8_unicode_ci';
+
             $table->bigIncrements('id');
-            $table->string('titulo');
+            $table->string('titulo')->nullable($value = false);
             $table->text('descricao');
-            $table->integer('numero_episodio');
-            $table->integer('views');
-            $table->integer('avaliacao');
-            $table->integer('num_avaliacoes');
+            $table->integer('numero_episodio')->unique()->nullable(false);
+            $table->unsignedInteger('views');
+            $table->unsignedDecimal('avaliacao', 2, 1);
+            $table->unsignedInteger('num_avaliacoes');
             $table->unsignedBigInteger('temporada_id');
             $table->foreign('temporada_id')->references('id')->on('temporadas');
-            $table->unsignedBigInteger('tag_id');
-            $table->foreign('tag_id')->references('id')->on('tags');
             $table->timestamps();
         });
     }

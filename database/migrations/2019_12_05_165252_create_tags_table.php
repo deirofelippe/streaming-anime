@@ -14,12 +14,11 @@ class CreateTagsTable extends Migration
     public function up()
     {
         Schema::create('tags', function (Blueprint $table) {
+            $table->charset = 'utf8';
+            $table->collation = 'utf8_unicode_ci';
+
             $table->bigIncrements('id');
-            $table->string('nome');
-            $table->unsignedBigInteger('anime_id');
-            $table->foreign('anime_id')->references('id')->on('animes');
-            $table->unsignedBigInteger('episodio_id');
-            $table->foreign('episodio_id')->references('id')->on('episodios');
+            $table->string('nome')->unique()->nullable($value = false);
         });
     }
 

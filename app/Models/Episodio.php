@@ -21,7 +21,7 @@ class Episodio extends Model
     }
 
     public function tags(){
-        return $this->belongsToMany('App\Models\Tag');
+        return $this->belongsToMany('App\Models\Tag', 'episodio_tag', 'episodio_id', 'tag_id');
     }
 
     public function embedVideos(){

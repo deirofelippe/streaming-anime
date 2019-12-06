@@ -15,8 +15,8 @@ class CreateEmbedVideosTable extends Migration
     {
         Schema::create('embed_videos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('html_embed_video');
-            $table->string('nome');
+            $table->text('codigo_embed')->nullable($value = false);
+            $table->string('nome')->nullable($value = false);
             $table->string('resolucao', 5);
             $table->string('sub_dub', 3);
             $table->unsignedBigInteger('episodio_id');
