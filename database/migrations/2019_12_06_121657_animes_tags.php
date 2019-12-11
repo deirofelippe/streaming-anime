@@ -28,6 +28,6 @@ class AnimesTags extends Migration
     */
     public function down()
     {
-        Schema::dropIfExists('anime_tag');
+        Schema::dropIfExists('animes_tags');
     }
 }

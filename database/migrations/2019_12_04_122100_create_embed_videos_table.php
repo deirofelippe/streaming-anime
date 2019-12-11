@@ -14,6 +14,7 @@ class CreateEmbedVideosTable extends Migration
     public function up()
     {
         Schema::create('embed_videos', function (Blueprint $table) {
+            //se nome, resolucao e sub_dub forem iguais a outro cadastro, entao existe
             $table->bigIncrements('id');
             $table->text('codigo_embed')->nullable($value = false);
             $table->string('nome')->nullable($value = false);

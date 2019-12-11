@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Anime extends Model
 {
+    // public $timestemps = false;
     protected $fillable = [
         'nome',
         'descricao',
@@ -19,6 +20,7 @@ class Anime extends Model
     }
 
     public function tags(){
-        return $this->belongsToMany('App\Models\Tag', 'anime_tag', 'anime_id', 'tag_id');
+        echo " Dentro de Tags ";
+        return $this->belongsToMany('App\Models\Tag','animes_tags','anime_id','tag_id');
     }
 }

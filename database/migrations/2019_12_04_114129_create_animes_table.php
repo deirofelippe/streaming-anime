@@ -21,9 +21,10 @@ class CreateAnimesTable extends Migration
             $table->bigIncrements('id');
             $table->string('nome')->unique()->nullable($value = false);
             $table->text('descricao');
-            $table->year('ano_lancamento');
-            $table->unsignedInteger('avaliacao');
-            $table->unsignedInteger('num_avaliacoes');
+            $table->addColumn('year', 'ano_lancamento');
+            $table->unsignedInteger('avaliacao')->default(0);
+            $table->unsignedInteger('num_avaliacoes')->default(0);
+            $table->timestamps();
         });
     }
 
