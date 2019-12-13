@@ -14,10 +14,10 @@ class EpisodiosTags extends Migration
     public function up()
     {
         Schema::create('episodios_tags', function (Blueprint $table) {
-            $table->unsignedBigInteger('tag_id');
-            $table->foreign('tag_id')->references('id')->on('tags');
             $table->unsignedBigInteger('episodio_id');
             $table->foreign('episodio_id')->references('id')->on('episodios');
+            $table->unsignedBigInteger('tag_id');
+            $table->foreign('tag_id')->references('id')->on('tags');
         });
     }
 

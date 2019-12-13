@@ -14,10 +14,10 @@ class AnimesTags extends Migration
     public function up()
     {
         Schema::create('animes_tags', function (Blueprint $table) {
-            $table->unsignedBigInteger('tag_id');
-            $table->foreign('tag_id')->references('id')->on('tags');
             $table->unsignedBigInteger('anime_id');
             $table->foreign('anime_id')->references('id')->on('animes');
+            $table->unsignedBigInteger('tag_id');
+            $table->foreign('tag_id')->references('id')->on('tags');
         });
     }
 

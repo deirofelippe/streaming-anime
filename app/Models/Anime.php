@@ -6,21 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Anime extends Model
 {
-    // public $timestemps = false;
     protected $fillable = [
         'nome',
+        'thumbnail',
         'descricao',
         'ano_lancamento',
-        'avaliacao',
-        'num_avaliacoes'
+        'views'
     ];
 
-    public function temporadas(){
-        return $this->hasMany('App\Models\Temporada');
+    public function episodios(){
+        return $this->hasMany('App\Models\Episodio');
     }
 
     public function tags(){
-        echo " Dentro de Tags ";
         return $this->belongsToMany('App\Models\Tag','animes_tags','anime_id','tag_id');
     }
 }

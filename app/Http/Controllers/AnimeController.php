@@ -9,52 +9,32 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class AnimeController extends Controller{
-    /**
-    * Display a listing of the resource.
-    *
-    * @return \Illuminate\Http\Response
-    */
+
     public function index(){
         $animes = Anime::all();
-        return view('anime.anime.index')->with('animes', $animes);
+        return view('anime.anime-list')->with('animes', $animes);
     }
 
-    /**
-    * Show the form for creating a new resource.
-    *
-    * @return \Illuminate\Http\Response
-    */
     public function create(){
-        return view('anime.anime.create');
+        return view('anime.anime-form');
     }
 
-    /**
-    * Store a newly created resource in storage.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @return \Illuminate\Http\Response
-    */
     public function store(Request $request){
         $request->validate([
-            'nome' => 'required',
-            'descricao' => 'required'
+            'nome' => 'required'
             ]);
 
-            $anime = $this->storeAnime($request);
+            $anime = $this->criarAnime($request);
             if(is_null($anime)){
-                return Redirect::to('anime/list')->with('error','Ja incluso');
+                return Redirect::to('anime/list')->with('info','Ja incluso');
             }
 
-            $tag = $this->storeTag($request);
-
-            if(!is_null($tag)){
-                $this->storeAnimesTags($anime, $tag);
-            }
+            $this->executarFuncoesTag($request, $anime);
 
             return Redirect::to('anime/list')->with('sucess','Incluido com sucesso');
         }
 
-        private function storeAnime(Request $request){
+        private function criarAnime($request){
             $nome = $request->nome;
 
             $animeExiste = DB::table('animes')->where('nome', $nome)->first();
@@ -76,13 +56,26 @@ class AnimeController extends Controller{
             return Anime::find($anime->id);
         }
 
-        private function storeTag(Request $request){
-            $tagNome = $request->tags;
-
-            if(is_null($tagNome)){
-                return null;
+        private function executarFuncoesTag($request, $anime){
+            $tags = $request->tags;
+            if(is_null($tags)){
+                return;
             }
 
+            $this->limparTag($tags, $anime);
+        }
+
+        private function limparTag($tags, $anime){
+            $tagArray = explode(",", $tags);
+            foreach($tagArray as $tag){
+                $tagNome = trim($tag);
+
+                $tagIncluido = $this->criarTag($tagNome);
+                $this->criarRelacaoAnimesTags($tagIncluido, $anime);
+            }
+        }
+
+        private function criarTag($tagNome){
             $tag = DB::table('tags')->where('nome', $tagNome)->first();
 
             if(!is_null($tag)){
@@ -90,65 +83,66 @@ class AnimeController extends Controller{
             }
 
             $data = ['nome' => $tagNome];
-            Tag::create($data);
-
-            return DB::table('tags')->where('nome', $tagNome)->first();
+            return Tag::create($data);
         }
 
-        private function storeAnimesTags($anime, $tag){
+        private function criarRelacaoAnimesTags($tag, $anime){
+            if(is_null($tag)){
+                return;
+            }
+
             $idAnime = $anime->id;
             $idTag = $tag->id;
 
             $relacaoExiste = DB::table('animes_tags')->where([
                 ['anime_id', $idAnime],
                 ['tag_id', $idTag],
-            ])->first();
+                ])->first();
 
-            if(is_null($relacaoExiste)){
-                $anime->tags()->attach($idTag);
-                return;
+                if(is_null($relacaoExiste)){
+                    $anime->tags()->attach($idTag);
+                    return;
+                }
             }
-            return;
-        }
 
-        /**
-        * Display the specified resource.
-        *
-        * @param  int  $id
-        * @return \Illuminate\Http\Response
-        */
-        public function show($id){
-            //
-        }
+            /**
+            * Display the specified resource.
+            *
+            * @param  int  $id
+            * @return \Illuminate\Http\Response
+            */
+            public function show($id){
+                //
+            }
 
-        /**
-        * Show the form for editing the specified resource.
-        *
-        * @param  int  $id
-        * @return \Illuminate\Http\Response
-        */
-        public function edit($id){
-            //
-        }
+            /**
+            * Show the form for editing the specified resource.
+            *
+            * @param  int  $id
+            * @return \Illuminate\Http\Response
+            */
+            public function edit($id){
+                //
+            }
 
-        /**
-        * Update the specified resource in storage.
-        *
-        * @param  \Illuminate\Http\Request  $request
-        * @param  int  $id
-        * @return \Illuminate\Http\Response
-        */
-        public function update(Request $request, $id){
-            //
-        }
+            /**
+            * Update the specified resource in storage.
+            *
+            * @param  \Illuminate\Http\Request  $request
+            * @param  int  $id
+            * @return \Illuminate\Http\Response
+            */
+            public function update(Request $request, $id){
+                //
+            }
 
-        /**
-        * Remove the specified resource from storage.
-        *
-        * @param  int  $id
-        * @return \Illuminate\Http\Response
-        */
-        public function destroy($id){
-            //
+            /**
+            * Remove the specified resource from storage.
+            *
+            * @param  int  $id
+            * @return \Illuminate\Http\Response
+            */
+            public function destroy($id){
+                //
+            }
         }
-    }

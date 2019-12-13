@@ -18,7 +18,7 @@ class CreateTagsTable extends Migration
             $table->collation = 'utf8_unicode_ci';
 
             $table->bigIncrements('id');
-            $table->string('nome')->unique()->nullable($value = false);
+            $table->string('nome')->unique()->nullable(false);
         });
     }
 

@@ -40,7 +40,7 @@ a {text-decoration: none;color: white;}
     padding: 10px 10px;
 }
 
-#nav-left > li > a:hover, 
+#nav-left > li > a:hover,
 #nav-right > li > a:hover {
     background-color: #596275;
 }
@@ -51,5 +51,4 @@ header {
 
 #nav-right #search, #nav-right #submit{
     height: 50px;
-    border-radius: ;
 }

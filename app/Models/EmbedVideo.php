@@ -6,11 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class EmbedVideo extends Model
 {
+    public $timestamps = false;
     protected $fillable = [
         'codigo_embed',
         'nome',
         'resolucao',
-        'sub_dub'
+        'sub_dub',
+        'episodio_id'
     ];
 
     public function episodio(){

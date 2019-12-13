@@ -19,11 +19,11 @@ class CreateAnimesTable extends Migration
             $table->collation = 'utf8_unicode_ci';
 
             $table->bigIncrements('id');
-            $table->string('nome')->unique()->nullable($value = false);
+            $table->string('nome')->unique()->nullable(false);
+            $table->string('thumbnail')->default('/img/sem-img.jpg')->unique()->nullable(false);
             $table->text('descricao');
             $table->addColumn('year', 'ano_lancamento');
-            $table->unsignedInteger('avaliacao')->default(0);
-            $table->unsignedInteger('num_avaliacoes')->default(0);
+            $table->unsignedInteger('views')->default(0);
             $table->timestamps();
         });
     }

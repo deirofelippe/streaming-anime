@@ -1,13 +1,34 @@
 <?php
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('home');
+});
 
-Route::get('/', 'HomeController@index');
+Route::prefix('anime')->group(function () {
+    Route::get('form', 'AnimeController@create');
+    Route::get('list', 'AnimeController@index');
+    Route::post('', 'AnimeController@store');
+});
 
-Route::get('/anime/form', 'AnimeController@create');
-Route::get('/anime/list', 'AnimeController@index');
-Route::post('/anime/add', 'AnimeController@store');
+Route::get('/{id}/episodios', 'EpisodioController@list');
+Route::prefix('episodio')->group(function(){
+    Route::get('form', 'EpisodioController@infoFormEpisodio');
+    Route::get('form/{id}', 'EpisodioController@create');
+    Route::post('', 'EpisodioController@store');
+});
 
-// Route::
+Route::get('/{id}/embed', 'EmbedController@form');
+Route::post('/embed', 'EmbedController@add');
+Route::get('/{id}/embeds', 'EmbedController@list');
+
+/*
+Route::get('/embed', function ($id) {
+    return view('')->with('anime', Anime::find($id));
+});
+
+Route::get('/tag', function ($id) {
+    return Anime::find($id);
+});
+*/
+
+Route::get('/fill', 'FillController@fill');

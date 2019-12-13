@@ -9,15 +9,15 @@ class Episodio extends Model
     public $timestamps = true;
     protected $fillable = [
         'titulo',
-        'descricao',
-        'numero_episodio',
+        'thumbnail',
+        'num_temporada',
+        'num_episodio',
         'views',
-        'avaliacao',
-        'num_avaliacoes'
+        'anime_id'
     ];
 
-    public function temporada(){
-        return $this->belongsTo('App\Models\Temporada');
+    public function anime(){
+        return $this->belongsTo('App\Models\Anime');
     }
 
     public function tags(){
