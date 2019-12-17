@@ -9,7 +9,7 @@
 <fieldset class="col-100">
     <legend class="centralizado">Episódio: </legend>
 
-    <form action="/episodio" method="POST">
+    <form action="/anime/{{ $anime->id }}/episodio" method="POST" enctype="multipart/form-data">
         {{ csrf_field() }}
 
         <div class="col-50">
@@ -19,7 +19,7 @@
             <input name="titulo" type="text">
 
             <label for="">Thumbnail: </label>
-            <input name="thumbnail" type="text">
+            <input name="thumbnail" type="file">
 
             <label for="">Número do episódio: </label>
             <input name="num_episodio" type="text">
@@ -27,8 +27,8 @@
             <label for="">Temporada: </label>
             <input name="num_temporada" type="text">
 
-            <label for="tags">Tags: </label>
-            <input name="tags" id="tags" type="text" placeholder="Ação, Drama, Histórico...">
+            <label for="video">Video: </label>
+            <input type="file" name="video">
         </div>
 
         <div class="col-50">
@@ -36,33 +36,34 @@
         </div>
     </form>
 </fieldset>
+
 <table>
     <thead>
         <tr>
-            <th>Titulo</th>
             <th>Thumbnail</th>
-            <th>Temporada</th>
+            <th>Titulo</th>
             <th>Episodio</th>
+            <th>Temporada</th>
+            <th>Vídeo</th>
             <th>Views</th>
-            <th>Tags</th>
         </tr>
     </thead>
     <tbody>
         @foreach ($anime->episodios as $episodio)
         <tr>
-            <td><a href="/{{ $episodio->id }}/embed">{{ $episodio->titulo }}</a></td>
-            <td>{{ $episodio->thumbnail }}</td>
-            <td>{{ $episodio->num_temporada }}</td>
+            <td><img src="{{ url($episodio->getThumbnail()) }}" alt="{{ $episodio->titulo }}" width="200" height="100"></td>
+            <td><a href="/anime/{{ $anime->id }}/episodio/{{ $episodio->id }}">{{ $episodio->titulo }}</a></td>
             <td>{{ $episodio->num_episodio }}</td>
+            <td>{{ $episodio->num_temporada }}</td>
+            <td>
+                <video width="400" controls>
+                    <source src="{{ url($episodio->getVideo()) }}" type="video/mp4">
+                    Seu navegador não suporta HTML5
+                </video>
+
+            </td>
             <td>{{ $episodio->views }}</td>
             <td>
-                @foreach ($episodio->tags as $tag)
-                @if ($loop->iteration != $loop->count)
-                <span>{{ $tag->nome }} <a href="#">x</a></span>,
-                @else
-                <span>{{ $tag->nome }} <a href="#">x</a></span>
-                @endif
-                @endforeach
             </td>
         </tr>
         @endforeach

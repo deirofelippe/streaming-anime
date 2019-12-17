@@ -22,8 +22,11 @@
 <table>
     <thead>
         <tr>
+            <th>Thumbnail</th>
             <th>Nome</th>
             <th>Descrição</th>
+            <th>Status</th>
+            <th>Estudio</th>
             <th>Ano de lançamento</th>
             <th>Tag</th>
         </tr>
@@ -32,8 +35,13 @@
         @isset($animes)
         @foreach ($animes as $anime)
         <tr>
-            <td><a href="/{{ $anime->id }}/episodios">{{ $anime->nome }}</a></td>
+            <td>
+                <img src="{{ url($anime->getThumbnail()) }}" alt="{{ $anime->nome }}" width="200" height="300">
+            </td>
+            <td><a href="/anime/{{ $anime->id }}/episodio">{{ $anime->nome }}</a></td>
             <td>{{ $anime->descricao }}</td>
+            <td>{{ $anime->getStatus() }}</td>
+            <td>{{ $anime->estudio }}</td>
             <td>{{ $anime->ano_lancamento }}</td>
             <td>
                 @foreach ($anime->tags as $tag)

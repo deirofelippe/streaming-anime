@@ -8,6 +8,7 @@ class Anime extends Model
 {
     protected $fillable = [
         'nome',
+        'estudio',
         'thumbnail',
         'descricao',
         'ano_lancamento',
@@ -15,8 +16,13 @@ class Anime extends Model
         'views'
     ];
 
+    public function getThumbnail(){
+        $path = "storage/thumbnail/anime/{$this->thumbnail}";
+        return $path;
+    }
+
     public function getStatus(){
-        $status = $this->fillable->status;
+        $status = $this->status;
         switch ($status) {
             case 0:
                 $valor = "Em andamento";

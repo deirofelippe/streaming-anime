@@ -23,6 +23,7 @@ class CreateEpisodiosTable extends Migration
             $table->string('thumbnail')->default('/img/sem-img.jpg')->nullable(false);
             $table->unsignedInteger('num_temporada')->nullable(false);
             $table->unsignedInteger('num_episodio')->nullable(false);
+            $table->string('video');
             $table->unsignedInteger('views')->default(0);
             $table->unsignedBigInteger('anime_id');
             $table->foreign('anime_id')->references('id')->on('animes');

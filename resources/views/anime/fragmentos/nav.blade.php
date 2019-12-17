@@ -4,12 +4,8 @@
             <li><a href="/">HOME</a></li>
             <li><a href="#">ANIMES</a>
                 <ul>
-                    <li><a href="/anime/list">LIST ANIME</a></li>
+                    <li><a href="/anime">LIST ANIME</a></li>
                     <li><a href="/anime/form">FORM ANIME</a></li>
-                </ul>
-                <ul>
-                    <li><a href="/episodio/list">LIST EPISODE</a></li>
-                    <li><a href="/episodio/form">FORM EPISODE</a></li>
                 </ul>
             </li>
             <li><a href="#">MANGÁS</a></li>

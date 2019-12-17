@@ -10,12 +10,12 @@ use Illuminate\Support\Facades\Redirect;
 
 class AnimeController extends Controller{
 
-    public function index(){
+    public function list(){
         $animes = Anime::all();
         return view('anime.anime-list')->with('animes', $animes);
     }
 
-    public function create(){
+    public function form(){
         return view('anime.anime-form');
     }
 
@@ -26,12 +26,12 @@ class AnimeController extends Controller{
 
             $anime = $this->criarAnime($request);
             if(is_null($anime)){
-                return Redirect::to('anime/list')->with('info','Ja incluso');
+                return Redirect::to('anime')->with('info','Ja incluso');
             }
 
             $this->executarFuncoesTag($request, $anime);
 
-            return Redirect::to('anime/list')->with('sucess','Incluido com sucesso');
+            return Redirect::to('anime')->with('sucess','Incluido com sucesso');
         }
 
         private function criarAnime($request){
@@ -45,10 +45,31 @@ class AnimeController extends Controller{
 
             $descricao = $request->descricao;
             $ano_lancamento = $request->ano_lancamento;
+            $status = $request->status;
+            $estudio = $request->estudio;
+
+            $valido = $request->file('thumbnail')->isValid();
+            $existe = $request->hasFile('thumbnail');
+            if(!$valido || !$existe){
+                return null;
+            }
+
+            $extensao = $request->thumbnail->extension();
+            $nomeGerado = uniqid(date('HisYmd'));
+            $nomeArquivo = "{$nomeGerado}.{$extensao}";
+            $caminho = 'thumbnail/anime';
+            $upload = $request->thumbnail->storeAs($caminho, $nomeArquivo,'public');
+
+            if(!$upload){
+                return null;
+            }
 
             $data = [
                 'nome' => $nome,
+                'thumbnail' => $nomeArquivo,
                 'descricao' => $descricao,
+                'estudio' => $estudio,
+                'status' => $status,
                 'ano_lancamento' => $ano_lancamento
             ];
 

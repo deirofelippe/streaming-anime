@@ -5,21 +5,18 @@ Route::get('/', function () {
 });
 
 Route::prefix('anime')->group(function () {
-    Route::get('form', 'AnimeController@create');
-    Route::get('list', 'AnimeController@index');
-    Route::post('', 'AnimeController@store');
-});
+    Route::get('form', 'AnimeController@form');
+    Route::get('{idAnime}', 'AnimeController@find');
+    Route::get('', 'AnimeController@list');
+    Route::post('', 'AnimeController@add');
 
-Route::get('/{id}/episodios', 'EpisodioController@list');
-Route::prefix('episodio')->group(function(){
-    Route::get('form', 'EpisodioController@infoFormEpisodio');
-    Route::get('form/{id}', 'EpisodioController@create');
-    Route::post('', 'EpisodioController@store');
+    Route::get('{idAnime}/episodio', 'EpisodioController@list');
+    Route::prefix('{idAnime}/episodio')->group(function(){
+        Route::get('form', 'EpisodioController@form');
+        Route::get('{idEpisodio}', 'EpisodioController@find');
+        Route::post('', 'EpisodioController@add');
+    });
 });
-
-Route::get('/{id}/embed', 'EmbedController@form');
-Route::post('/embed', 'EmbedController@add');
-Route::get('/{id}/embeds', 'EmbedController@list');
 
 /*
 Route::get('/embed', function ($id) {
