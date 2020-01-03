@@ -19,14 +19,14 @@ class CreateEpisodiosTable extends Migration
             $table->collation = 'utf8_unicode_ci';
 
             $table->bigIncrements('id');
-            $table->string('titulo')->nullable($value = false);
-            $table->text('descricao');
-            $table->integer('numero_episodio')->unique()->nullable(false);
-            $table->unsignedInteger('views');
-            $table->unsignedDecimal('avaliacao', 2, 1);
-            $table->unsignedInteger('num_avaliacoes');
-            $table->unsignedBigInteger('temporada_id');
-            $table->foreign('temporada_id')->references('id')->on('temporadas');
+            $table->string('titulo')->nullable(false);
+            $table->string('thumbnail')->default('sem-img.jpg')->nullable(false);
+            $table->unsignedInteger('num_temporada')->nullable(false);
+            $table->unsignedInteger('num_episodio')->nullable(false);
+            $table->string('video');
+            $table->unsignedInteger('views')->default(0);
+            $table->unsignedBigInteger('anime_id');
+            $table->foreign('anime_id')->references('id')->on('animes');
             $table->timestamps();
         });
     }

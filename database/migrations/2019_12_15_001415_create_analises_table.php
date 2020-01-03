@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTagsTable extends Migration
+class CreateAnalisesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateTagsTable extends Migration
      */
     public function up()
     {
-        Schema::create('tags', function (Blueprint $table) {
-            $table->charset = 'utf8';
-            $table->collation = 'utf8_unicode_ci';
-
+        Schema::create('analises', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('nome')->unique()->nullable(false);
+            $table->text('analise');
+            $table->unsignedBigInteger('avaliacoes_id');
+            $table->foreign('avaliacoes_id')->references('id')->on('avaliacoes');
+            $table->timestamps();
         });
     }
 
@@ -29,6 +29,6 @@ class CreateTagsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tags');
+        Schema::dropIfExists('analises');
     }
 }
