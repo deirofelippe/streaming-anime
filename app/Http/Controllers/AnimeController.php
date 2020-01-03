@@ -2,16 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Anime;
-use App\Models\Tag;
+use App\Http\Controllers\Validacoes\AnimeValidacao;
+use App\Services\AnimeService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class AnimeController extends Controller{
+    //pegar primeiro frame do video pra thumbnail
+    //usar api de pagamento
+    //security (auth, email confirmation, reset password)
+    //autocomplete na pesquisa
+    //player javascript video
+    //
+    //google analytics
+    //juntar tds os css usados com o principal, de acordo com cada pagina
+
+    //grava o id, o retorno dos petodos sempre serao msg de erro ou n. o retorno do obj incluido no bd sera trocado pela busca dele no final de tds as validacoes
+    private $service;
+
+    function __construct(){
+        $this->service = new AnimeService();
+    }
 
     public function list(){
-        $animes = Anime::all();
+        $animes = $this->service->findAll();
+        return view('anime.anime-list')->with('animes', $animes);
+    }
+
+    public function listByNome($nome){
+        if(is_null($nome) || empty($nome)){
+            return redirect()->action('AnimeController@listByNome');
+        }
+
+        $animes = $this->service->findByName($nome);
         return view('anime.anime-list')->with('animes', $animes);
     }
 
@@ -19,151 +42,23 @@ class AnimeController extends Controller{
         return view('anime.anime-form');
     }
 
-    public function store(Request $request){
-        $request->validate([
-            'nome' => 'required'
-            ]);
+    public function add(Request $request){
 
-            $anime = $this->criarAnime($request);
-            if(is_null($anime)){
-                return Redirect::to('anime')->with('info','Ja incluso');
-            }
+        $animeValidacao = new AnimeValidacao();
 
-            $this->executarFuncoesTag($request, $anime);
-
-            return Redirect::to('anime')->with('sucess','Incluido com sucesso');
+        $validacao = $animeValidacao->validar($request);
+        if($validacao->fails() || $validacao->errors()->isNotEmpty()){
+            //erro na validacao, validacao manual n é exibida na view
+            return redirect('anime/form')->withErrors($validacao);
         }
 
-        private function criarAnime($request){
-            $nome = $request->nome;
-
-            $animeExiste = DB::table('animes')->where('nome', $nome)->first();
-
-            if(!is_null($animeExiste)){
-                return null;
-            }
-
-            $descricao = $request->descricao;
-            $ano_lancamento = $request->ano_lancamento;
-            $status = $request->status;
-            $estudio = $request->estudio;
-
-            $valido = $request->file('thumbnail')->isValid();
-            $existe = $request->hasFile('thumbnail');
-            if(!$valido || !$existe){
-                return null;
-            }
-
-            $extensao = $request->thumbnail->extension();
-            $nomeGerado = uniqid(date('HisYmd'));
-            $nomeArquivo = "{$nomeGerado}.{$extensao}";
-            $caminho = 'thumbnail/anime';
-            $upload = $request->thumbnail->storeAs($caminho, $nomeArquivo,'public');
-
-            if(!$upload){
-                return null;
-            }
-
-            $data = [
-                'nome' => $nome,
-                'thumbnail' => $nomeArquivo,
-                'descricao' => $descricao,
-                'estudio' => $estudio,
-                'status' => $status,
-                'ano_lancamento' => $ano_lancamento
-            ];
-
-            $anime = Anime::create($data);
-            return Anime::find($anime->id);
+        $anime = $this->service->add($request);
+        if(!is_null($anime)){
+            $validacao->errors()->add('error','Falha ao cadastrar');
+            return redirect('anime/form')->withErrors($validacao);
         }
 
-        private function executarFuncoesTag($request, $anime){
-            $tags = $request->tags;
-            if(is_null($tags)){
-                return;
-            }
-
-            $this->limparTag($tags, $anime);
-        }
-
-        private function limparTag($tags, $anime){
-            $tagArray = explode(",", $tags);
-            foreach($tagArray as $tag){
-                $tagNome = trim($tag);
-
-                $tagIncluido = $this->criarTag($tagNome);
-                $this->criarRelacaoAnimesTags($tagIncluido, $anime);
-            }
-        }
-
-        private function criarTag($tagNome){
-            $tag = DB::table('tags')->where('nome', $tagNome)->first();
-
-            if(!is_null($tag)){
-                return $tag;
-            }
-
-            $data = ['nome' => $tagNome];
-            return Tag::create($data);
-        }
-
-        private function criarRelacaoAnimesTags($tag, $anime){
-            if(is_null($tag)){
-                return;
-            }
-
-            $idAnime = $anime->id;
-            $idTag = $tag->id;
-
-            $relacaoExiste = DB::table('animes_tags')->where([
-                ['anime_id', $idAnime],
-                ['tag_id', $idTag],
-                ])->first();
-
-                if(is_null($relacaoExiste)){
-                    $anime->tags()->attach($idTag);
-                    return;
-                }
-            }
-
-            /**
-            * Display the specified resource.
-            *
-            * @param  int  $id
-            * @return \Illuminate\Http\Response
-            */
-            public function show($id){
-                //
-            }
-
-            /**
-            * Show the form for editing the specified resource.
-            *
-            * @param  int  $id
-            * @return \Illuminate\Http\Response
-            */
-            public function edit($id){
-                //
-            }
-
-            /**
-            * Update the specified resource in storage.
-            *
-            * @param  \Illuminate\Http\Request  $request
-            * @param  int  $id
-            * @return \Illuminate\Http\Response
-            */
-            public function update(Request $request, $id){
-                //
-            }
-
-            /**
-            * Remove the specified resource from storage.
-            *
-            * @param  int  $id
-            * @return \Illuminate\Http\Response
-            */
-            public function destroy($id){
-                //
-            }
-        }
+        $msg = "Cadastrado com sucesso: {$anime->nome}";
+        return Redirect::to('anime')->with('sucess', $msg);
+    }
+}

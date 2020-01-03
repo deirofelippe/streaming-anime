@@ -21,7 +21,7 @@ class CreateAnimesTable extends Migration
             $table->bigIncrements('id');
             $table->string('nome')->unique()->nullable(false);
             $table->string('estudio')->nullable(false);
-            $table->string('thumbnail')->default('/thumbnail/anime/sem-img.jpg')->unique()->nullable(false);
+            $table->string('thumbnail')->default('sem-img.jpg');
             $table->tinyInteger('status', false, true);
             $table->text('descricao');
             $table->addColumn('year', 'ano_lancamento');

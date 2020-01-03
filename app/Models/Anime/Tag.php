@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Anime;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,10 +12,10 @@ class Tag extends Model
     ];
 
     public function episodios(){
-        return $this->belongsToMany('App\Models\Episodio','episodios_tags','tag_id','episodio_id');
+        return $this->belongsToMany('App\Models\Anime\Episodio','episodios_tags','tag_id','episodio_id');
     }
 
     public function animes(){
-        return $this->belongsToMany('App\Models\Anime','animes_tags','tag_id','anime_id');
+        return $this->belongsToMany('App\Models\Anime\Anime','animes_tags','tag_id','anime_id');
     }
 }

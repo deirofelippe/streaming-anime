@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models\Anime;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +13,6 @@ class Analise extends Model
     ];
 
     public function avaliacao(){
-        return $this->belongsTo('App\Models\Avaliacao');
+        return $this->belongsTo('App\Models\Anime\Avaliacao');
     }
 }

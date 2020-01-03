@@ -20,7 +20,7 @@ class CreateEpisodiosTable extends Migration
 
             $table->bigIncrements('id');
             $table->string('titulo')->nullable(false);
-            $table->string('thumbnail')->default('/img/sem-img.jpg')->nullable(false);
+            $table->string('thumbnail')->default('sem-img.jpg')->nullable(false);
             $table->unsignedInteger('num_temporada')->nullable(false);
             $table->unsignedInteger('num_episodio')->nullable(false);
             $table->string('video');

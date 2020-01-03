@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Anime;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,6 +26,6 @@ class Episodio extends Model
     }
 
     public function anime(){
-        return $this->belongsTo('App\Models\Anime');
+        return $this->belongsTo('App\Models\Anime\Anime');
     }
 }

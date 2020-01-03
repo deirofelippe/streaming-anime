@@ -11,11 +11,11 @@
         @isset($info)
         <span class="info">{{ $info }}</span>
         @endisset
-        @isset($error)
-        <span class="error">{{ $error }}</span>
-        @endisset
-        @isset($sucsess)
-        <span class="success">{{ $sucsess }}</span>
+
+        <span class="error">{{ $errors->first('error') }}</span>
+
+        @isset($success)
+        <span class="success">{{ $success }}</span>
         @endisset
     </h4>
 </div>

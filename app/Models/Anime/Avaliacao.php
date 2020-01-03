@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models\Anime;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,10 +12,10 @@ class Avaliacao extends Model
     ];
 
     public function anime(){
-        return $this->belongsTo('App\Models\Anime');
+        return $this->belongsTo('App\Models\Anime\Anime');
     }
 
     public function analise(){
-        return $this->hasOne('App\Models\Analise');
+        return $this->hasOne('App\Models\Anime\Analise');
     }
 }

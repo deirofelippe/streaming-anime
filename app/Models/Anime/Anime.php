@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Anime;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -38,14 +38,14 @@ class Anime extends Model
     }
 
     public function episodios(){
-        return $this->hasMany('App\Models\Episodio');
+        return $this->hasMany('App\Models\Anime\Episodio');
     }
 
     public function avaliacao(){
-        return $this->hasOne('App\Models\Avaliacao');
+        return $this->hasOne('App\Models\Anime\Avaliacao');
     }
 
     public function tags(){
-        return $this->belongsToMany('App\Models\Tag','animes_tags','anime_id','tag_id');
+        return $this->belongsToMany('App\Models\Anime\Tag','animes_tags','anime_id','tag_id');
     }
 }

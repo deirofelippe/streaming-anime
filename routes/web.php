@@ -29,3 +29,12 @@ Route::get('/tag', function ($id) {
 */
 
 Route::get('/fill', 'FillController@fill');
+
+/*
+design: perto do final e usando js, ajax e json
+inclusao junto com listagem
+inclusao dinamica q pode ser com array em json, de animes ou episodios
+edicao na mesma pagina de mostrar (mostrar um episodio, tds ou mostrar o anime)
+
+js: ajax, json,
+*/
