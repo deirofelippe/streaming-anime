@@ -6,10 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Analise extends Model
 {
-    //tem uma avaliacao
     protected $fillable = [
         'analise',
-        'avaliacoes_id'
+        'avaliacao_id'
     ];
 
     public function avaliacao(){

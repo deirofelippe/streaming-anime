@@ -3,6 +3,7 @@
 namespace App\DAOs;
 
 use App\Models\Anime\Anime;
+use Illuminate\Support\Facades\Storage;
 
 class AnimeDAO {
 
@@ -29,5 +30,9 @@ class AnimeDAO {
 
     public function uploadThumbnail($request, $caminho, $nomeArquivo){
         return $request->thumbnail->storeAs($caminho, $nomeArquivo,'public');
+    }
+
+    public function deletarThumbnail($caminhoComNome){
+        return Storage::disk('public')->delete($caminhoComNome);
     }
 }

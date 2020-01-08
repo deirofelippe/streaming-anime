@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Validacoes\EpisodioValidacao;
-use App\Services\Anime\AnimeService;
 use App\Services\Episodio\EpisodioService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EpisodioController extends Controller{
     private $service;
@@ -15,7 +15,9 @@ class EpisodioController extends Controller{
     }
 
     public function list($animeId){
-        $objs = $this->service->findAll($animeId);
+        $objs = DB::transaction(function () use ($animeId) {
+            return $this->service->findAll($animeId);
+       });
 
         return view('anime.episodio-list')
         ->with('episodios', $objs['episodios'])
@@ -39,7 +41,9 @@ class EpisodioController extends Controller{
             ->withErrors($validacao);
         }
 
-        $episodio = $this->service->add($request);
+        $episodio = DB::transaction(function () use ($request) {
+             return $this->service->add($request);
+        });
         if(is_null($episodio)){
             return redirect()
             ->action('EpisodioController@list', ['idAnime' => $idAnime])

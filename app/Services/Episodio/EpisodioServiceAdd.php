@@ -6,7 +6,6 @@ use App\DAOs\AnimeDAO;
 use App\DAOs\EpisodioDAO;
 use Exception;
 use Illuminate\Support\Facades\Storage;
-use Pbmedia\LaravelFFMpeg\FFMpegFacade;
 
 class EpisodioServiceAdd {
     private $dao;
@@ -26,7 +25,6 @@ class EpisodioServiceAdd {
             echo $e->getMessage();
             $this->deletarUploads($nomeGerado);
             return null;
-            //criar alguma abstracao ou algo q centralize os paths e disks
         }
 
         return $episodio;

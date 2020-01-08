@@ -10,33 +10,43 @@ class AnimeValidacao implements InterfaceValidacao {
     public function validar($request){
         $validator = $this->gerarInstanciaDoValidator($request);
 
-        if($request->status == -1){
-            $validator->errors()->add('status','Selecione o status');
+        if($validator->fails()){
+            return $validator;
         }
 
-        if(strlen($request->ano_lancamento) != 4){
-            $validator->errors()->add('ano_lancamento', 'O campo deve conter 4 números');
-        }
-
-        $nome = $request->nome;
-        if(!is_null($nome)){
-            $repository = new AnimeDAO();
-            $animeExiste = $repository->findByName($nome);
-            if(!is_null($animeExiste)){
-                $validator->errors()->add('nome','Anime com este nome já foi criado');
-            }
-        }
-
-        return $validator;
+        return null;
     }
 
     public function gerarInstanciaDoValidator($request){
         $regras = [
-            'nome'=>'required',
+            'nome'=>[
+                'required',
+                function($attribute, $value, $fail){
+                    $repository = new AnimeDAO();
+                    $animeExiste = $repository->findByName($value);
+                    if(sizeof($animeExiste) != 0){
+                        $fail("O anime '{$value}' já existe");
+                    }
+                }
+            ],
             'descricao'=>'required',
             'estudio'=>'required',
-            'ano_lancamento'=>'required|integer',
-            'thumbnail'=>'file|image|nullable'
+            'ano_lancamento'=> [
+                'required',
+                'integer',
+                function($attribute, $value, $fail){
+                    if(strlen($value) != 4){
+                        $fail('O campo deve conter 4 números');
+                    }
+                }
+            ],
+            'thumbnail'=>'file|image|nullable',
+            'status'=>
+                function($attribute, $value, $fail){
+                    if($value == -1){
+                        $fail('Selecione algum status');
+                    }
+                }
         ];
         $mensagens = [
             'required'=>'Este campo precisa ser preenchido',

@@ -11,19 +11,7 @@ class EpisodioValidacao implements InterfaceValidacao {
     public function validar(Request $request){
         $validator = $this->gerarInstanciaDoValidator($request);
 
-        $dao = new EpisodioDAO();
-        $episodioExiste = $dao->findByName($request->titulo);
-
-        if(!is_null($episodioExiste)){
-            $validator->errors()->add('titulo', 'Episodio com este titulo já foi criado');
-        }
-
-        $numeroEhTemporadaExiste = $dao->findByNumeroEpisodio($request);
-        if(!is_null($numeroEhTemporadaExiste)){
-            $validator->errors()->add('num_episodio', 'Episódio dessa temporada já existe');
-        }
-
-        if($validator->errors()->isNotEmpty() || $validator->fails()){
+        if($validator->fails()){
             return $validator;
         }
 
@@ -33,7 +21,17 @@ class EpisodioValidacao implements InterfaceValidacao {
     public function gerarInstanciaDoValidator(Request $request){
         $regras = [
             'titulo'=>'required',
-            'num_episodio'=>'required|integer|min:1',
+            'num_episodio'=>['required','integer','min:1',
+            function($attribute, $value, $fail) use ($request){
+                $dao = new EpisodioDAO();
+                $numeroEhTemporadaExiste = $dao->findByNumeroEpisodio($request);
+                if(!is_null($numeroEhTemporadaExiste)){
+                    $ep = $request->num_episodio;
+                    $temp = $request->num_temporada;
+                    $fail("O episódio {$ep} da temporada {$temp} já existe");
+                }
+            }
+        ],
             'num_temporada'=>'required|integer|min:1',
             'video'=>'required|file',
             'thumbnail'=>'nullable|file|image'

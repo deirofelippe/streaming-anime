@@ -15,8 +15,8 @@ class EpisodioService implements InterfaceService {
     }
 
     public function add($request){
-        $episodioServiceAdd = new EpisodioServiceAdd();
-        return $episodioServiceAdd->add($request);
+            $episodioServiceAdd = new EpisodioServiceAdd();
+            return $episodioServiceAdd->add($request);
     }
 
     public function findById($id){
