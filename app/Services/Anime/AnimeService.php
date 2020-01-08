@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Anime;
 
 use App\DAOs\AnimeDAO;
 use App\DAOs\AnimeTagDAO;
 use App\DAOs\TagDAO;
+use App\Services\InterfaceService;
 use Exception;
 
 class AnimeService implements InterfaceService {

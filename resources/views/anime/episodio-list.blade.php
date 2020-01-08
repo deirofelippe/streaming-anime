@@ -73,9 +73,9 @@
             <td>{{ $episodio->num_temporada }}</td>
             <td>
                 <video width="400" controls>
-                    <source src="{{ url($episodio->getVideo()) }}" type="video/mp4">
-                        Seu navegador não suporta HTML5
-                    </video>
+                    <source src="{{ url($episodio->getVideo()) }}" type="video/mp4" />
+                    Seu navegador não suporta HTML5
+                </video>
 
                 </td>
                 <td>{{ $episodio->views }}</td>

@@ -3,6 +3,7 @@
 namespace App\DAOs;
 
 use App\Models\Anime\Episodio;
+use Pbmedia\LaravelFFMpeg\FFMpegFacade;
 
 class EpisodioDAO {
 
@@ -23,7 +24,7 @@ class EpisodioDAO {
     }
 
     public function findAll($animeId){
-        return Episodio::where('anime_id', $animeId)->orderBy('num_episodio','desc')->get();
+        return Episodio::where('anime_id', $animeId)->orderBy('num_episodio','asc')->get();
     }
     public function findByNumeroEpisodio($request){
         return Episodio::where([
@@ -38,5 +39,13 @@ class EpisodioDAO {
 
     public function uploadVideo($request, $caminho, $nomeArquivo){
         return $request->video->storeAs($caminho, $nomeArquivo, 'public');
+    }
+
+    public function criarThumbnailDoVideo($disk, $caminhoComVideo, $caminhoComThumbnail){
+        return FFMpegFacade::fromDisk($disk)
+        ->open($caminhoComVideo)
+        ->getFrameFromSeconds(1)
+        ->export()
+        ->save($caminhoComThumbnail);
     }
 }

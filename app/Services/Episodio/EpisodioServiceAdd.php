@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Episodio;
 
 use App\DAOs\AnimeDAO;
 use App\DAOs\EpisodioDAO;
 use Exception;
+use Illuminate\Support\Facades\Storage;
+use Pbmedia\LaravelFFMpeg\FFMpegFacade;
 
-class EpisodioService implements InterfaceService {
+class EpisodioServiceAdd {
     private $dao;
 
     function __construct(){
@@ -17,15 +19,22 @@ class EpisodioService implements InterfaceService {
         $nomeGerado = $this->gerarNome($request);
 
         try {
-            $thumbnail = $this->uploadThumbnail($request, $nomeGerado);
             $video = $this->uploadVideo($request, $nomeGerado);
+            $thumbnail = $this->uploadThumbnail($request, $nomeGerado, $video);
             $episodio = $this->criarEpisodio($request, $thumbnail, $video);
         } catch (Exception $e) {
             echo $e->getMessage();
+            $this->deletarUploads($nomeGerado);
             return null;
+            //criar alguma abstracao ou algo q centralize os paths e disks
         }
 
         return $episodio;
+    }
+
+    private function deletarUploads($nomeGerado){
+        Storage::disk('public')->delete("thumbnail/episodio/{$nomeGerado}.png");
+        Storage::disk('public')->delete("video/{$nomeGerado}.mp4");
     }
 
     private function gerarNome($request){
@@ -55,53 +64,44 @@ class EpisodioService implements InterfaceService {
     }
 
     private function uploadVideo($request, $nome){
-        if(!$request->hasFile('video')){
-            return null;
-        }
-
         $extensao = $request->video->extension();
         $nomeArquivo = "{$nome}.{$extensao}";
         $caminho = 'video';
-        $upload = $this->dao->uploadVideo($caminho, $nomeArquivo, 'public');
+        $upload = $this->dao->uploadVideo($request, $caminho, $nomeArquivo);
 
         if(!$upload){
-            return null;
+            throw new Exception('Erro ao fazer upload do vídeo');
         }
 
         return $nomeArquivo;
     }
 
-    private function uploadThumbnail($request, $nome){
-        //se thumb estiver vazia, pega o primeiro frame do video
+    private function uploadThumbnail($request, $nome, $video){
+        $caminho = 'thumbnail/episodio';
+
         if(!$request->hasFile('thumbnail')){
-            return null;
+            return $this->criarThumbnailPeloFrameDoVideo($video, $caminho);
         }
 
         $extensao = $request->thumbnail->extension();
-        $nomeArquivo = "{$nome}.{$extensao}";
-        $caminho = 'thumbnail/episodio';
-        $upload = $this->dao->uploadThumbnail($caminho, $nomeArquivo, 'public');
+        $arquivo = "{$nome}.{$extensao}";
+        $upload = $this->dao->uploadThumbnail($request, $caminho, $arquivo);
 
         if(!$upload){
-            return null;
+            throw new Exception('Erro ao fazer upload da thumbnail');
         }
 
-        return $nomeArquivo;
+        return $arquivo;
     }
 
-    public function findById($id){
-        return $this->dao->findById($id);
-    }
+    private function criarThumbnailPeloFrameDoVideo($video, $caminho){
+        $nome = explode(".", $video)[0];
+        $caminhoComThumbnail = "{$caminho}/{$nome}.png";
+        $caminhoComVideo = "video/{$video}";
+        $disk = 'public';
 
-    public function findAll($animeId){
-        $episodios = $this->dao->findAll($animeId);
+        $this->dao->criarThumbnailDoVideo($disk, $caminhoComVideo, $caminhoComThumbnail);
 
-        $animeDAO = new AnimeDAO();
-        $anime = $animeDAO->findById($animeId);
-
-        return [
-            'episodios' => $episodios,
-            'anime' => $anime
-        ];
+        return "{$nome}.png";
     }
 }

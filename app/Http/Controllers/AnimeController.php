@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Validacoes\AnimeValidacao;
-use App\Services\AnimeService;
+use App\Services\Anime\AnimeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 

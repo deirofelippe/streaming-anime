@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Validacoes\EpisodioValidacao;
-use App\Services\EpisodioService;
+use App\Services\Anime\AnimeService;
+use App\Services\Episodio\EpisodioService;
 use Illuminate\Http\Request;
 
 class EpisodioController extends Controller{
@@ -39,12 +40,10 @@ class EpisodioController extends Controller{
         }
 
         $episodio = $this->service->add($request);
-        if(!is_null($episodio)){
-            $validacao->errors()->add('error','Erro ao cadastrar');
-
+        if(is_null($episodio)){
             return redirect()
             ->action('EpisodioController@list', ['idAnime' => $idAnime])
-            ->withErrors($validacao);
+            ->with('error', 'Erro ao cadastrar');
         }
 
         return redirect()->action('EpisodioController@list', ['idAnime' => $idAnime]);
