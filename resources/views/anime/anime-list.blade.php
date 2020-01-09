@@ -1,65 +1,36 @@
 @extends('layout')
 
-@section('title', 'Lista de animes')
+@section('title', 'Animes')
+
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/anime/anime.css') }}">
+@endsection
 
 @section('content')
-<h1>
-    Lista de animes
-</h1>
-<div id="mensagens">
-    <h4>
-        @isset($info)
-        <span class="info">{{ $info }}</span>
-        @endisset
 
-        <span class="error">{{ $errors->first('error') }}</span>
+@include('anime.anime-form')
 
-        @isset($success)
-        <span class="success">{{ $success }}</span>
-        @endisset
-    </h4>
-</div>
-<table>
-    <thead>
-        <tr>
-            <th>Thumbnail</th>
-            <th>Nome</th>
-            <th>Descrição</th>
-            <th>Status</th>
-            <th>Estudio</th>
-            <th>Ano de lançamento</th>
-            <th>Tag</th>
-        </tr>
-    </thead>
-    <tbody>
-        @isset($animes)
-        @foreach ($animes as $anime)
-        <tr>
-            <td>
-                <img src="{{ url($anime->getThumbnail()) }}" alt="{{ $anime->nome }}" width="200" height="300">
-            </td>
-            <td><a href="/anime/{{ $anime->id }}/episodio">{{ $anime->nome }}</a></td>
-            <td>{{ $anime->descricao }}</td>
-            <td>{{ $anime->getStatus() }}</td>
-            <td>{{ $anime->estudio }}</td>
-            <td>{{ $anime->ano_lancamento }}</td>
-            <td>
-                @foreach ($anime->tags as $tag)
-                @if ($loop->iteration != $loop->count)
-                <span>{{ $tag->nome }} <a href="#">x</a></span>,
-                @else
-                <span>{{ $tag->nome }} <a href="#">x</a></span>
-                @endif
-                @endforeach
-            </td>
-        </tr>
-        @endforeach
-        @if (count($animes) < 1)
-        <tr>
-            <span>Sem registro</span>
-        </tr>
-        @endif
-        @endisset
-    </tbody>
-</table>
+<section>
+    @foreach ($animes as $anime)
+    <div class="coluna animes" id="anime-{{ $anime->id }}">
+        <div class="linha info-principal">
+            <div>
+                <img src="{{ url($anime->getThumbnail()) }}" alt="{{ $anime->nome}}" width="210" height="118">
+            </div>
+            <div>
+                <h1><a href="/anime/{{ $anime->id }}/episodios">{{ $anime->nome }}</a></h1>
+            </div>
+        </div>
+
+        {{-- <div class="info-detalhes">
+            {{ $anime->nome }}
+            {{ $anime->sinopse }}
+            {{ $anime->studio }}
+            {{ $anime->getStatus() }}
+            {{ $anime->ano_lancamento }}
+            {{ $anime->avaliacao }}
+        </div> --}}
+    </div>
+    @endforeach
+</section>
 @endsection

@@ -24,11 +24,14 @@ class EpisodioValidacao implements InterfaceValidacao {
             'num_episodio'=>['required','integer','min:1',
             function($attribute, $value, $fail) use ($request){
                 $dao = new EpisodioDAO();
-                $numeroEhTemporadaExiste = $dao->findByNumeroEpisodio($request);
+
+                $animeId = $request->anime_id;
+                $temporada = $request->num_temporada;
+                $episodio = $request->num_episodio;
+
+                $numeroEhTemporadaExiste = $dao->findByNumeroEpisodio($animeId, $temporada, $episodio);
                 if(!is_null($numeroEhTemporadaExiste)){
-                    $ep = $request->num_episodio;
-                    $temp = $request->num_temporada;
-                    $fail("O episódio {$ep} da temporada {$temp} já existe");
+                    $fail("O episódio {$episodio} da temporada {$temporada} já existe");
                 }
             }
         ],

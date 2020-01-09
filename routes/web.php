@@ -5,15 +5,16 @@ Route::get('/', function () {
 });
 
 Route::prefix('anime')->group(function () {
-    Route::get('form', 'AnimeController@form');
-    Route::get('{idAnime}', 'AnimeController@find');
+    // Route::get('form', 'AnimeController@form');
+    Route::get('buscar', 'AnimeController@findByName');
+    // Route::get('{animeId}', 'AnimeController@findById');
     Route::get('', 'AnimeController@list');
     Route::post('', 'AnimeController@add');
 
-    Route::get('{idAnime}/episodio', 'EpisodioController@list');
-    Route::prefix('{idAnime}/episodio')->group(function(){
-        Route::get('form', 'EpisodioController@form');
-        Route::get('{idEpisodio}', 'EpisodioController@find');
+    Route::get('{animeId}/episodios', 'EpisodioController@list');
+    Route::prefix('{animeId}/episodio')->group(function(){
+        // Route::get('form', 'EpisodioController@form');
+        Route::get('{episodioId}', 'EpisodioController@findById');
         Route::post('', 'EpisodioController@add');
     });
 });

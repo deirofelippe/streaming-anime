@@ -23,7 +23,7 @@ class CreateAnimesTable extends Migration
             $table->string('estudio')->nullable(false);
             $table->string('thumbnail')->default('sem-img.jpg');
             $table->tinyInteger('status', false, true);
-            $table->text('descricao');
+            $table->text('sinopse');
             $table->addColumn('year', 'ano_lancamento');
             $table->unsignedInteger('views')->default(0);
             $table->timestamps();

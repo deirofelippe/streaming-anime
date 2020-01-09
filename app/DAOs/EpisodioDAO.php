@@ -15,8 +15,11 @@ class EpisodioDAO {
 
     public function delete($id){}
 
-    public function findByName($name){
-        return Episodio::where('titulo', $name)->first();
+    public function findByName($nome, $animeId){
+        return Episodio::where([
+            ['titulo', $nome],
+            ['anime_id', $animeId]
+            ])->first();
     }
 
     public function add($data){
@@ -26,10 +29,11 @@ class EpisodioDAO {
     public function findAll($animeId){
         return Episodio::where('anime_id', $animeId)->orderBy('num_episodio','asc')->get();
     }
-    public function findByNumeroEpisodio($request){
+    public function findByNumeroEpisodio($animeId, $temporada, $episodio){
         return Episodio::where([
-            ['num_episodio', $request->num_episodio],
-            ['num_temporada', $request->num_temporada]
+            ['num_episodio', $episodio],
+            ['num_temporada', $temporada],
+            ['anime_id', $animeId]
             ])->first();
     }
 

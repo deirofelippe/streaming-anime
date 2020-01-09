@@ -1,0 +1,9 @@
+.coluna{
+    display: flex;
+    flex-direction: column;
+}
+
+.linha{
+    display: flex;
+    flex-direction: row;
+}

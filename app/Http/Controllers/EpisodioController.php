@@ -24,20 +24,15 @@ class EpisodioController extends Controller{
         ->with('anime', $objs['anime']);
     }
 
-    public function form($id){
-        $anime = $this->service->findById($id);
-        return view('anime.episodio-form')->with('anime', $anime);
-    }
-
     public function add(Request $request){
-        $idAnime = $request->anime_id;
+        $animeId = $request->anime_id;
 
         $classeValidacao = new EpisodioValidacao();
 
         $validacao = $classeValidacao->validar($request);
         if(!is_null($validacao)){
             return redirect()
-            ->action('EpisodioController@list', ['idAnime' => $idAnime])
+            ->action('EpisodioController@list', ['animeId' => $animeId])
             ->withErrors($validacao);
         }
 
@@ -46,10 +41,21 @@ class EpisodioController extends Controller{
         });
         if(is_null($episodio)){
             return redirect()
-            ->action('EpisodioController@list', ['idAnime' => $idAnime])
+            ->action('EpisodioController@list', ['animeId' => $animeId])
             ->with('error', 'Erro ao cadastrar');
         }
 
-        return redirect()->action('EpisodioController@list', ['idAnime' => $idAnime]);
+        return redirect()->action('EpisodioController@list', ['animeId' => $animeId]);
+    }
+
+    public function findById($animeId, $episodioId){
+        $objs = DB::transaction(function ()  use ($animeId, $episodioId){
+            return $this->service->findById($animeId, $episodioId);
+        });
+
+        return view('anime.episodio')
+        ->with('anime', $objs['anime'])
+        ->with('episodio', $objs['episodio'])
+        ->with('episodios', $objs['episodios']);
     }
 }

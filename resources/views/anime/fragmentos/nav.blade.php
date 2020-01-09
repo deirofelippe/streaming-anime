@@ -5,7 +5,6 @@
             <li><a href="#">ANIMES</a>
                 <ul>
                     <li><a href="/anime">LIST ANIME</a></li>
-                    <li><a href="/anime/form">FORM ANIME</a></li>
                 </ul>
             </li>
             <li><a href="#">MANGÁS</a></li>
@@ -18,9 +17,11 @@
             <li><a href="#">ALEATÓRIO</a></li>
             <li><a href="#">LOGIN</a></li>
             <li>
-                <div id="search">
-                    <input id="search" type="text" placeholder="Anime, mangá, etc.">
-                    <input id="submit" type="submit" value="">
+                <div id="busca">
+                    <form action="/anime/buscar" method="GET">
+                        <input id="nome" type="text" name="nome" placeholder="Anime, mangá, etc.">
+                        <input type="submit" value="BUSCAR">
+                    </form>
                 </div>
             </li>
         </ul>

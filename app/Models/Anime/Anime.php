@@ -10,7 +10,7 @@ class Anime extends Model
         'nome',
         'estudio',
         'thumbnail',
-        'descricao',
+        'sinopse',
         'ano_lancamento',
         'status',
         'views'

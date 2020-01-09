@@ -3,8 +3,6 @@
 
 @section('title', 'Home - Yousekai')
 
-@section('css', "")
-
 @section('content')
 <section>
     <main>

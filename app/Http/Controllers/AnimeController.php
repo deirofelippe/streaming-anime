@@ -6,7 +6,6 @@ use App\Http\Controllers\Validacoes\AnimeValidacao;
 use App\Services\Anime\AnimeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redirect;
 
 class AnimeController extends Controller{
     private $service;
@@ -20,17 +19,24 @@ class AnimeController extends Controller{
         return view('anime.anime-list')->with('animes', $animes);
     }
 
-    public function listByNome($nome){
+    public function findByName(Request $request){
+        $nome = $request->nome;
         if(is_null($nome) || empty($nome)){
-            return redirect()->action('AnimeController@listByNome');
+            return redirect()->action('AnimeController@list');
         }
 
         $animes = $this->service->findByName($nome);
         return view('anime.anime-list')->with('animes', $animes);
     }
 
-    public function form(){
-        return view('anime.anime-form');
+    public function findById($animeId){
+        $objs = DB::transaction(function () use ($animeId) {
+            return $this->service->findById($animeId);
+        });
+
+        return view('anime.episodio-list')
+        ->with('anime', $objs['anime'])
+        ->with('episodios', $objs['episodios']);
     }
 
     public function add(Request $request){
@@ -39,7 +45,7 @@ class AnimeController extends Controller{
 
         $validacao = $animeValidacao->validar($request);
         if($validacao->fails()){
-            return redirect('anime/form')->withErrors($validacao);
+            return redirect('anime')->withErrors($validacao);
         }
 
         $anime = DB::transaction(function () use ($request) {
@@ -47,10 +53,10 @@ class AnimeController extends Controller{
         });
         if(!is_null($anime)){
             $validacao->errors()->add('error','Falha ao cadastrar');
-            return redirect('anime/form')->withErrors($validacao);
+            return redirect()->action('AnimeController@list')->withErrors($validacao);
         }
 
         $msg = "Cadastrado com sucesso: {$anime->nome}";
-        return Redirect::to('anime')->with('sucess', $msg);
+        return redirect()->action('AnimeController@list')->with('sucess', $msg);
     }
 }
