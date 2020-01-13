@@ -1,5 +1,6 @@
 <form action="/anime" method="POST" enctype="multipart/form-data">
-    {{ csrf_field() }}
+    @csrf
+
     <div class="col-50">
         <div>
             <label for="nome">Nome: </label>
@@ -49,5 +50,6 @@
 
     <div class="col-50">
         <input type="submit" value="Incluir">
+        <input type="reset" value="Limpar">
     </div>
 </form>

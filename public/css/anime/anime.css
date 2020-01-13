@@ -7,3 +7,29 @@
     display: flex;
     flex-direction: row;
 }
+
+.warning{
+    color: #f1c40f;
+}
+
+.info{
+    color: #74b9ff;
+}
+
+.error{
+    color: #d63031;
+}
+
+body{
+    font-family: "Lato", sans-serif;
+    color: white;
+    background-color: #2c3e50;
+}
+
+itens{
+    margin: 10px 10px;
+}
+
+item{
+    margin: 5px;
+}

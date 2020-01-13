@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class EpisodioServiceAdd {
     private $dao;
+    private $extensao = '.jpg';
 
     function __construct(){
         $this->dao = new EpisodioDAO();
@@ -31,7 +32,7 @@ class EpisodioServiceAdd {
     }
 
     private function deletarUploads($nomeGerado){
-        Storage::disk('public')->delete("thumbnail/episodio/{$nomeGerado}.png");
+        Storage::disk('public')->delete("thumbnail/episodio/{$nomeGerado}.jpg");
         Storage::disk('public')->delete("video/{$nomeGerado}.mp4");
     }
 
@@ -94,12 +95,12 @@ class EpisodioServiceAdd {
 
     private function criarThumbnailPeloFrameDoVideo($video, $caminho){
         $nome = explode(".", $video)[0];
-        $caminhoComThumbnail = "{$caminho}/{$nome}.png";
+        $caminhoComThumbnail = "{$caminho}/{$nome}.jpg";
         $caminhoComVideo = "video/{$video}";
         $disk = 'public';
 
         $this->dao->criarThumbnailDoVideo($disk, $caminhoComVideo, $caminhoComThumbnail);
 
-        return "{$nome}.png";
+        return "{$nome}.jpg";
     }
 }

@@ -31,7 +31,7 @@ class AnimeServiceAdd {
     }
 
     private function deletarUploads($nome){
-        $caminhoComNome = "thumbnail/anime/{$nome}.png";
+        $caminhoComNome = "thumbnail/anime/{$nome}.jpg";
         $this->dao->deletarThumbnail($caminhoComNome);
     }
 

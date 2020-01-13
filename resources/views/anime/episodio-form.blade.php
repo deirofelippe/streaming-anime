@@ -1,5 +1,5 @@
 <form action="/anime/{{ $anime->id }}/episodio" method="POST" enctype="multipart/form-data">
-    {{ csrf_field() }}
+    @csrf
 
     <div class="col-50">
         <input name="anime_id" value="{{ $anime->id }}" type="text" hidden>
@@ -13,6 +13,7 @@
         <div>
             <label for="thumbnail">Thumbnail: </label>
             <input name="thumbnail" type="file">
+            <span class="warning">*Será usado o primeiro frame do vídeo como thumbnail, caso nenhuma imagem seja enviada</span>
         </div>
         {{ $errors->first('thumbnail') }}
 
@@ -37,5 +38,6 @@
 
     <div class="col-50">
         <input type="submit" value="Incluir">
+        <input type="reset" value="Limpar">
     </div>
 </form>

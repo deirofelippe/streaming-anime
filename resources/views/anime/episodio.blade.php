@@ -3,7 +3,7 @@
 @section('title', 'Episodio')
 
 @section('css')
-    {{-- <link rel="stylesheet" href="{{ asset('css/anime/anime-form.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('css/anime/anime.css') }}">
 @endsection
 
 @section('content')

@@ -8,17 +8,13 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: "Lato", sans-serif;
-    color: black;
-}
-
 #nav{
     display: flex;
     flex-direction: row;
     list-style: none;
     padding-top: 10px;
 }
+
 #nav-left {
     justify-content: flex-start;
 }
@@ -34,7 +30,7 @@ body {
     list-style: none;
 }
 
-a {text-decoration: none;color: black;}
+a {text-decoration: none; color: white;}
 
 #nav-left > li > a, #nav-right > li > a {
     padding: 10px 10px;
