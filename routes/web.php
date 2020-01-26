@@ -19,6 +19,11 @@ Route::prefix('anime')->group(function () {
     });
 });
 
+Route::get('/users', 'UserController@list')->middleware('temPermissao:admin');
+Route::prefix('/user')->group(function () {
+    Route::get('{userUsername}', 'UserController@findByUsername');
+});
+
 /*
 Route::get('/embed', function ($id) {
     return view('')->with('anime', Anime::find($id));
@@ -29,8 +34,6 @@ Route::get('/tag', function ($id) {
 });
 */
 
-Route::get('/fill', 'FillController@fill');
-
 /*
 design: perto do final e usando js, ajax e json
 inclusao junto com listagem
@@ -39,3 +42,7 @@ edicao na mesma pagina de mostrar (mostrar um episodio, tds ou mostrar o anime)
 
 js: ajax, json,
 */
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

@@ -29,7 +29,7 @@ class AnimeValidacao implements InterfaceValidacao {
                     }
                 }
             ],
-            'descricao'=>'required',
+            'sinopse'=>'required',
             'estudio'=>'required',
             'ano_lancamento'=> [
                 'required',
@@ -48,12 +48,14 @@ class AnimeValidacao implements InterfaceValidacao {
                     }
                 }
         ];
+
         $mensagens = [
             'required'=>'Este campo precisa ser preenchido',
             'integer'=>'O campo deve conter apenas números',
             'file'=>'O arquivo falhou, envie de novo',
             'image'=>'O arquivo deve ser uma imagem/gif'
         ];
+
         return Validator::make($request->all(), $regras, $mensagens);
     }
 }

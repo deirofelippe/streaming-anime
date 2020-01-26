@@ -1,3 +1,15 @@
+<div id="mensagens">
+    @isset($success)
+        <span class="info">
+            {{ $success }}
+        </span>
+    @endisset
+
+    <span class="error">
+        {{ $errors->first('error') }}
+    </span>
+</div>
+
 <form action="/anime" method="POST" enctype="multipart/form-data">
     @csrf
 
@@ -21,10 +33,10 @@
         <span>{{ $errors->first('thumbnail') }}</span>
 
         <div>
-            <label for="descricao">Descrição: </label>
-            <textarea name="descricao" id="descricao" cols="30" rows="10"></textarea>
+            <label for="sinopse">Sinopse: </label>
+            <textarea name="sinopse" id="sinopse" cols="30" rows="10"></textarea>
         </div>
-        <span>{{ $errors->first('descricao') }}</span>
+        <span>{{ $errors->first('sinopse') }}</span>
 
         <div>
             Status: <select name="status">

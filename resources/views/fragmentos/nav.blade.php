@@ -11,11 +11,18 @@
             <li><a href="#">FÓRUM</a></li>
             <li><a href="#">NOTÍCIAS</a></li>
             <li><a href="/guilda">GUILDA</a></li>
+            @can('isAdmin')
+                <li><a href="/users">USUÁRIO</a></li>
+            @endcan
         </ul>
 
         <ul id="nav-right">
             <li><a href="#">ALEATÓRIO</a></li>
-            <li><a href="#">LOGIN</a></li>
+            <li>AUTH
+                <ul>
+                    @include('anime.fragmentos.auth')
+                </ul>
+            </li>
             <li>
                 <div id="busca">
                     <form action="/anime/buscar" method="GET">

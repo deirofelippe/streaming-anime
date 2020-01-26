@@ -8,7 +8,9 @@
 
 @section('content')
 
-@include('anime.episodio-form')
+@can('isAdmin')
+    @include('anime.episodio-form')
+@endcan
 
 <h1>
     {{ $anime->nome }}

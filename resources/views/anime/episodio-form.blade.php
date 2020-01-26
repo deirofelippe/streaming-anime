@@ -1,3 +1,15 @@
+<div id="mensagens">
+    @isset($success)
+        <span class="info">
+            {{ $success }}
+        </span>
+    @endisset
+
+    <span class="error">
+        {{ $errors->first('error') }}
+    </span>
+</div>
+
 <form action="/anime/{{ $anime->id }}/episodio" method="POST" enctype="multipart/form-data">
     @csrf
 

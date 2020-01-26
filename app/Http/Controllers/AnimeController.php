@@ -44,19 +44,19 @@ class AnimeController extends Controller{
         $animeValidacao = new AnimeValidacao();
 
         $validacao = $animeValidacao->validar($request);
-        if($validacao->fails()){
+        if(!is_null($validacao)){
             return redirect('anime')->withErrors($validacao);
         }
 
         $anime = DB::transaction(function () use ($request) {
             return $this->service->add($request);
         });
-        if(!is_null($anime)){
+        if(is_null($anime)){
             $validacao->errors()->add('error','Falha ao cadastrar');
             return redirect()->action('AnimeController@list')->withErrors($validacao);
         }
 
-        $msg = "Cadastrado com sucesso: {$anime->nome}";
-        return redirect()->action('AnimeController@list')->with('sucess', $msg);
+        $msg = "Cadastrado com sucesso: {$request->nome}";
+        return redirect()->action('AnimeController@list')->with('success', $msg);
     }
 }

@@ -17,7 +17,7 @@ class CreateAnalisesTable extends Migration
             $table->bigIncrements('id');
             $table->text('analise');
             $table->unsignedBigInteger('avaliacao_id');
-            $table->foreign('avaliacoes_id')->references('id')->on('avaliacoes');
+            $table->foreign('avaliacao_id')->references('id')->on('avaliacoes');
             $table->timestamps();
         });
     }

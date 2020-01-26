@@ -15,7 +15,7 @@ class AnimeServiceAdd {
     }
 
     public function add($request){
-        $thumbnail = uniqid(date('HisYmd'));
+        $thumbnail = $this->gerarNomeDaThumbnail($request);
 
         try {
             $upload = $this->fazerUploadDaThumbnail($request, $thumbnail);
@@ -35,11 +35,23 @@ class AnimeServiceAdd {
         $this->dao->deletarThumbnail($caminhoComNome);
     }
 
+    private function gerarNomeDaThumbnail($request){
+        if(!$request->hasFile('thumbnail')){
+            return null;
+        }
+
+        $thumbnail = uniqid(date('HisYmd'));
+        $extensao = $request->thumbnail->extension();
+        $nomeArquivo = "{$thumbnail}.{$extensao}";
+
+        return $nomeArquivo;
+    }
+
     private function criarAnime($request, $thumbnail){
         $data = [
             'nome' => $request->nome,
             'thumbnail' => $thumbnail,
-            'descricao' => $request->descricao,
+            'sinopse' => $request->sinopse,
             'estudio' => $request->estudio,
             'status' => $request->status,
             'ano_lancamento' => $request->ano_lancamento
@@ -53,10 +65,8 @@ class AnimeServiceAdd {
             return null;
         }
 
-        $extensao = $request->thumbnail->extension();
-        $nomeArquivo = "{$thumbnail}.{$extensao}";
         $caminho = 'thumbnail/anime';
-        $upload = $this->dao->uploadThumbnail($request, $caminho, $nomeArquivo);
+        $upload = $this->dao->uploadThumbnail($request, $caminho, $thumbnail);
 
         if(!$upload){
             return null;

@@ -8,7 +8,9 @@
 
 @section('content')
 
-@include('anime.anime-form')
+@can('isAdmin')
+    @include('anime.anime-form')
+@endcan
 
 <section>
     <div class="itens">
