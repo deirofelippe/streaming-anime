@@ -2,6 +2,7 @@
 
 namespace App\Models\Anime;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Permissao extends Model{
@@ -12,6 +13,6 @@ class Permissao extends Model{
     ];
 
     public function users(){
-        return $this->belongsToMany('App\User','users_permissoes','permissao_id','user_id');
+        return $this->belongsToMany(User::class);
     }
 }

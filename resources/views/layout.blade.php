@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
-    @include('anime.fragmentos.nav')
+    @include('fragmentos.nav')
 
     <main>
         @yield('content')

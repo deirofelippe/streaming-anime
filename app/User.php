@@ -2,9 +2,11 @@
 
 namespace App;
 
+use App\Models\Anime\Permissao;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable {
     use Notifiable;
@@ -41,7 +43,7 @@ class User extends Authenticatable {
     ];
 
     public function permissoes(){
-        return $this->belongsToMany('App\Models\Anime\Permissao','users_permissoes','user_id','permissao_id');
+        return $this->belongsToMany(Permissao::class);
     }
 
     public function getAvatar(){
@@ -49,10 +51,9 @@ class User extends Authenticatable {
         return $path;
     }
 
-    public function temPermissao($permissaoPraAcao){
-        $permissoes = $this->permissoes();
-        foreach ($permissoes as $permissao) {
-            if($permissao->permissao == $permissaoPraAcao) {
+    public function temPermissao($roleDaAcao, $permissoesDoUser){
+        foreach ($permissoesDoUser as $permissao) {
+            if($permissao->role == $roleDaAcao) {
                 return true;
             }
         }

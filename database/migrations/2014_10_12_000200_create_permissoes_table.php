@@ -13,7 +13,7 @@ class CreatePermissoesTable extends Migration
     {
         Schema::create('permissoes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('permissao')->default('comum');
+            $table->string('role')->unique()->nullable(false);
             $table->timestamps();
         });
     }

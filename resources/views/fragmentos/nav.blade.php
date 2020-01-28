@@ -20,7 +20,7 @@
             <li><a href="#">ALEATÓRIO</a></li>
             <li>AUTH
                 <ul>
-                    @include('anime.fragmentos.auth')
+                    @include('fragmentos.auth')
                 </ul>
             </li>
             <li>

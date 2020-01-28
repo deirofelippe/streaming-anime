@@ -7,7 +7,6 @@
 @endsection
 
 @section('content')
-
 @can('isAdmin')
     @include('anime.anime-form')
 @endcan
