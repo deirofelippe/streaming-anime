@@ -18,16 +18,14 @@
         <div class="coluna item" id="anime-{{ $user->id }}">
             <div class="linha info-principal">
                 <div>
-                    <img src="{{ url($user->getAvatar()) }}" alt="{{ $user->nome}}" width="210" height="118">
+                    <img src="{{ url($user->getAvatar()) }}" alt="{{ $user->name}}" width="210" height="118">
                 </div>
                 <div>
-                    <h1><a href="/user/{{ $user->id }}">{{ $user->username }}</a></h1>
+                    <h1><a href="/user/{{ $user->id }}">{{ $user->name }}</a></h1>
                 </div>
-                <div>
-                    @foreach ($user->permissoes as $permissao)
-                        <span>{{ $permissao->permissao }}</span><a href="permissao/remover/{{ $user->id }}/{{ $permissao->id }}">x</a>
-                    @endforeach
-                </div>
+                @foreach ($user->getRoles() as $role)
+                    <h1>{{ $role->role }}</h1>
+                @endforeach
             </div>
         </div>
         @endforeach

@@ -19,10 +19,10 @@ Route::prefix('anime')->group(function () {
     });
 });
 
-Route::get('/users', 'UserController@list')->middleware('temPermissao:admin');
-Route::prefix('/user')->group(function () {
-    Route::get('{userUsername}', 'UserController@findByUsername');
-});
+Route::get('/users', 'UserGetController@list')->middleware('temPermissao:admin');
+// Route::prefix('/user')->group(function () {
+//     Route::get('{userUsername}', 'UserController@findByUsername');
+// });
 
 /*
 Route::get('/embed', function ($id) {

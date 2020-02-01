@@ -24,6 +24,8 @@ class User extends Authenticatable {
     //crud de usuario, auth em outras paginas
     //muitos comentarios/posts (forum ou video), muitas avaliacoes,
 
+    private $roles = [];
+
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -46,13 +48,21 @@ class User extends Authenticatable {
         return $this->belongsToMany(Permissao::class);
     }
 
+    public function setRoles($roles){
+        $this->roles = $roles;
+    }
+
+    public function getRoles(){
+        return $this->roles;
+    }
+
     public function getAvatar(){
         $path = "storage/user/avatar/{$this->avatar}";
         return $path;
     }
 
-    public function temPermissao($roleDaAcao, $permissoesDoUser){
-        foreach ($permissoesDoUser as $permissao) {
+    public function temPermissao($roleDaAcao, $rolesDoUsuario){
+        foreach ($rolesDoUsuario as $permissao) {
             if($permissao->role == $roleDaAcao) {
                 return true;
             }
